@@ -11,6 +11,8 @@
 na      dw $DEAD
 nb      dw $BEEF
 nc      dw $BADC
+
+        org $90
 res     rmb 2
 
 ; Atajos para acceder al byte alto/bajo de cada parametro y hacer, un poco,
