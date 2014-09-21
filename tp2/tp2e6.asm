@@ -1,11 +1,11 @@
         org $80
 
 len     db !10
+cnt     db $0
 arr     db '01234567'
         db $a3
         db $FF
 
-cnt     db $0
 
         org $EE00
 start
