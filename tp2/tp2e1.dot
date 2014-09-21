@@ -1,0 +1,69 @@
+digraph {
+    labelloc = bc;
+    color   = "gray";
+    bgcolor = "mintcream";
+    node [color="skyblue"];
+    edge [color="gray"];
+
+    subgraph cluster_flujo {
+        label = "Flujo";
+        labelloc = tc;
+
+        inicio[shape="box", style=rounded];
+        fin[shape="box", style=rounded];
+
+        inicia_punteros[
+            shape="box",
+            label="SP apunta a inicio de tabla 2.\n X  apunta a inicio de tabla 1."
+        ]
+
+        compara_elementos[
+            shape="diamond",
+            label="tabla2[SP] > tabla1[X]"
+        ]
+
+        bmenor[
+            shape="box",
+            label="tabla1[X] = tabla2[SP]",
+        ]
+
+        incrementa_punteros[
+            shape="box",
+            label="SP = SP + 1 \n X = X + 1",
+        ]
+
+        compara_punteros[
+            shape="diamond",
+            label="X == SP",
+        ]
+
+        inicio -> inicia_punteros -> compara_elementos;
+
+        compara_elementos -> incrementa_punteros[label=" no"];
+
+        compara_elementos:e -> bmenor:w[taillabel=" si"];
+        {rank=same; compara_elementos ; bmenor};
+
+        bmenor:s -> incrementa_punteros:e;
+
+        incrementa_punteros:s -> compara_punteros:n;
+        compara_punteros:w -> compara_elementos:w[taillabel=" no"];
+
+        compara_punteros -> fin[label=" si"];
+    }
+
+    subgraph cluster_mapa_memoria {
+        node [shape="record"];
+        edge [style="dashed"];
+
+        label   = "Layout de memoria";
+        labelloc = tc;
+
+        tabla1  [label="{tabla1[0]}"];
+        tabla2  [label="{tabla1[N]|tabla2[0]}"];
+        tabla2n [label="{tabla2[N]}"];
+        tabla1->tabla2->tabla2n;
+    }
+
+    label="TP 2 ejercicio 1.";
+}
