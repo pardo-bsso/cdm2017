@@ -1,0 +1,53 @@
+digraph {
+    labelloc = bc;
+    color   = "gray";
+    bgcolor = "mintcream";
+    node [color="skyblue"];
+    edge [color="gray"];
+
+    subgraph cluster_flujo {
+        label = "Flujo";
+        labelloc = tc;
+
+        inicio[shape="box", style=rounded];
+        fin[shape="box", style=rounded];
+
+        inicia_punteros[
+            shape="box",
+            label="X apunta a inicio de la cadena"
+        ]
+
+        mueve_punteros[
+            shape="box",
+            label="X = X + 1",
+        ]
+
+        compara_elemento[
+            shape="diamond",
+            label="97 <= cadena[X] <= 122",
+        ]
+
+        compara_punteros[
+            shape="diamond",
+            label="cadena[X] == 0x0D",
+        ]
+
+        pasa_a_mayuscula[
+            shape="box",
+            label="cadena[X] = cadena[X] - 32",
+        ]
+
+        inicio -> inicia_punteros -> compara_elemento;
+        compara_elemento:e -> pasa_a_mayuscula:w[taillabel=" si"];
+        {rank=same; compara_elemento ; pasa_a_mayuscula}
+        pasa_a_mayuscula:s -> mueve_punteros:e[constraint=false];
+
+        compara_elemento:s -> mueve_punteros:n[taillabel=" no"];
+        mueve_punteros -> compara_punteros;
+
+        compara_punteros:w -> compara_elemento:w[taillabel=" no"];
+        compara_punteros -> fin[label=" si"];
+    }
+
+    label="TP 2 ejercicio 3.";
+}
