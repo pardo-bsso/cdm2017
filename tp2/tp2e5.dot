@@ -1,0 +1,51 @@
+digraph {
+    labelloc = bc;
+    color   = "gray";
+    bgcolor = "mintcream";
+    node [color="skyblue"];
+    edge [color="gray"];
+
+    subgraph cluster_flujo {
+        label = "Flujo";
+        labelloc = tc;
+
+        inicio[shape="box", style=rounded];
+        fin[shape="box", style=rounded];
+
+        miles[
+            shape="box",
+            label="miles = (bcdentrada & 0xF000) >> 12"
+        ]
+
+        centenas[
+            shape="box",
+            label="centenas = (bcdentrada & 0x0F00) >> 8"
+        ]
+
+        decenas[
+            shape="box",
+            label="decenas = (bcdentrada & 0x00F0) >> 4"
+        ]
+
+        unidades[
+            shape="box",
+            label="unidades = (bcdentrada & 0x000F)"
+        ]
+
+        inicio -> miles -> centenas -> decenas -> unidades -> fin;
+    }
+
+    subgraph cluster_mapa_memoria {
+        node [shape="record"];
+        edge [style="dashed"];
+
+        label   = "Layout de memoria";
+        labelloc = tc;
+
+        l1[style=invis, label="", shape=none];
+        memmap  [label="{bcdinH | bcdinL | miles | centenas | decenas | unidades}"];
+        l1 -> memmap[style=invis];
+    }
+
+    label="TP 2 ejercicio 5.";
+}
