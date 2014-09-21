@@ -1,0 +1,39 @@
+digraph {
+    labelloc = bc;
+    color   = "gray";
+    bgcolor = "mintcream";
+    node [color="skyblue"];
+    edge [color="gray"];
+
+    subgraph cluster_flujo {
+        label = "Flujo";
+        labelloc = tc;
+
+        inicio[shape="box", style=rounded];
+        fin[shape="box", style=rounded];
+
+        suma_na_nb_L[
+            shape="box",
+            label="carry = 0 \n resultado.L = na.L + nb.L"
+        ]
+
+        suma_na_nb_H[
+            shape="box",
+            label="resultado.H = na.H + nb.H + carry"
+        ]
+
+        suma_res_nc_L[
+            shape="box",
+            label="carry = 0 \n resultado.L = resultado.L + nc.L"
+        ]
+
+        suma_res_nc_H[
+            shape="box",
+            label="resultado.H = resultado.H + nc.H + carry"
+        ]
+
+        inicio -> suma_na_nb_L -> suma_na_nb_H -> suma_res_nc_L -> suma_res_nc_H -> fin;
+    }
+
+    label="TP 2 ejercicio 4.";
+}
