@@ -1,0 +1,44 @@
+digraph {
+    labelloc = bc;
+    color   = "gray";
+    bgcolor = "mintcream";
+    node [color="skyblue"];
+    edge [color="gray"];
+
+    subgraph cluster_flujo {
+        label = "Flujo";
+        labelloc = tc;
+
+        inicio[shape="box", style=rounded];
+        fin[shape="box", style=rounded];
+
+        inicia_punteros[
+            shape="box",
+            label="SP apunta a inicio de tabla.\n X  apunta al final."
+        ]
+
+        intercambia_elementos[
+            shape="box",
+            label="Intercambio tabla[SP] con tabla[X]"
+        ]
+
+        mueve_punteros[
+            shape="box",
+            label="SP = SP + 1 \n X = X - 1",
+        ]
+
+        compara_punteros[
+            shape="diamond",
+            label="SP >= X",
+        ]
+
+        inicio -> inicia_punteros -> intercambia_elementos;
+
+        intercambia_elementos -> mueve_punteros -> compara_punteros;
+
+        compara_punteros:e -> intercambia_elementos:e[taillabel=" no", constraint=false];
+        compara_punteros -> fin[label=" si"];
+    }
+
+    label="TP 2 ejercicio 2.";
+}
