@@ -80,6 +80,21 @@ hdec74
 
         beq hdec74_noerr
 
+        coma
+        and #$07
+        tax
+        lda #$01
+hdec74_L0
+        cpx #$00
+        beq hdec74_L0e
+        decx
+        asla
+        jmp hdec74_L0
+
+hdec74_L0e
+        eor 1,SP
+        sta 1,SP
+
 
 hdec74_noerr
         lda 1,SP
