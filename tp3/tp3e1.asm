@@ -3,6 +3,14 @@
 
         org $EE00
 start
+        clrx
+
+        lda #%1110101
+        jsr hdec74
+        lda #%1010101
+        jsr hdec74
+        lda #%1010100
+        jsr hdec74
 
 
 fin
