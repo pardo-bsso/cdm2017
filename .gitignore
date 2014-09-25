@@ -1,5 +1,6 @@
 *.swp
 *.BAK
+*.ERR
 *.map
 *.lst
 *.s19
