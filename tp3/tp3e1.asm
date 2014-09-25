@@ -78,6 +78,17 @@ hdec74
         lda 2,SP
         and #$07
 
+        beq hdec74_noerr
+
+
+hdec74_noerr
+        lda 1,SP
+        bit #%10000
+        beq hdec74_b30
+        ora #%1000
+hdec74_b30
+        and #%1111
+
 
 hdec74_fin
         ais #+2 ;XXX FIXME: ver que apunte bien al final.
