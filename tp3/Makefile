@@ -7,3 +7,6 @@ ASM=/media/xp/ics08qtqyz/CASM08Z.EXE
 		$(ASM) $< S D
 
 all: $(patsubst %.dot, %.png, $(wildcard *.dot)) $(patsubst %.asm, %.s19, $(wildcard *.asm))
+
+clean:
+		rm *.s19 *.ERR *.map
