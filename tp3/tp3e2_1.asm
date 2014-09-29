@@ -1,3 +1,10 @@
+; R = X * Y
+; R y X son enteros de 16 bits
+; Y es un entero de 8 bits.
+; No se maneja si hay overflow.
+; variables X e Y son modificados por la rutina.
+; El registro X tambien.
+
         org $80
 
 Xh      db  $DE
@@ -13,6 +20,10 @@ start
         clr Rh
         clr Rl
 
+; Por cada bit de Y, si es uno
+;   sumo X al resultado
+; X = X << 1
+; Y = Y >> 1
 loop_mult
         brclr 0,Y,rota
 
