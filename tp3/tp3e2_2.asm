@@ -16,18 +16,22 @@ Rl      db  $DC
 
         org $EE00
 start
+;                            cycles.
 
-        lda Y
-        ldx Xl
-        mul
-        sta Rl
-        stx Rh
+        lda Y               ; 3
+        ldx Xl              ; 3
+        mul                 ; 5
+        sta Rl              ; 3
+        stx Rh              ; 3
+                            ; 17 total.
 
-        lda Y
-        ldx Xh
-        mul
-        add Rh
-        sta Rh
+        lda Y               ; 3
+        ldx Xh              ; 3
+        mul                 ; 5
+        add Rh              ; 3
+        sta Rh              ; 3
+                            ; 17 total.
+; total de ciclos: 34
 
 fin
         jmp fin
