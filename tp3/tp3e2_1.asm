@@ -24,27 +24,32 @@ start
 ;   sumo X al resultado
 ; X = X << 1
 ; Y = Y >> 1
+;                            cycles.
 loop_mult
-        brclr 0,Y,rota
+        brclr 0,Y,rota      ; 5
 
-        clc
+        clc                 ; 1
 
-        lda Rl
-        add Xl
-        sta Rl
+        lda Rl              ; 3
+        add Xl              ; 3
+        sta Rl              ; 3
 
-        lda Rh
-        adc Xh
-        sta Rh
+        lda Rh              ; 3
+        adc Xh              ; 3
+        sta Rh              ; 3
+                            ; 24 total.
 
 rota
-        clc
-        asr Y
-        asl Xl
-        rol Xh
+        clc                 ; 1
+        asr Y               ; 4
+        asl Xl              ; 4
+        rol Xh              ; 4
 
-        decx
-        bne loop_mult
+        decx                ; 1
+        bne loop_mult       ; 3
+                            ; 17 total.
+
+; total de ciclos peor caso: 8 * (17 + 24) = 328
 
 fin
         jmp fin
