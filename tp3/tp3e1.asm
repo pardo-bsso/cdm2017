@@ -31,10 +31,12 @@ hweight
         clr 1,SP        ; c en SP+1
         psha            ; v en A y SP
 
+; for (c = 0; v; c++) {
 hweight_l1
         cmp #$0
         beq hweight_fin
 
+;   v &= v - 1;
 ; lhs en A , rhs en SP
         dec 1,SP
         and 1,SP
@@ -54,10 +56,16 @@ hdec74
         pshh
         pshx
 
+; Matriz para el calculo de paridad
         ldhx #h74_parity
 
 ; dato original en SP
 ; sindrome en SP+1
+; Multiplico H por el dato recibido.
+; En este caso solo importa si la cantidad de unos es par o impar,
+; por lo que solo considero el bit 0 del resultado.
+; El bucle esta desenrrollado.
+
         psha
         psha
         clr 2,SP
@@ -86,12 +94,22 @@ hdec74
         lda 2,SP
         and #$07
 
+; Si el resultado es nulo se que el dato recibido no contiene errores.
         beq hdec74_noerr
 
+; Caso contrario uno o mas bits estan invertidos.
+; Errores en un bit pueden ser corregidos.
+; Si solo hay un bit erroneo, el sindrome es a su vez la posicion del mismo.
+; Invirtiendolo se obtiene el dato original.
+; r = r ^ (1 << s)
+
+; con esta tabla s=7 es en realidad el bit 0
         coma
         and #$07
         tax
         lda #$01
+
+; A = (1 << s)
 hdec74_L0
         cpx #$00
         beq hdec74_L0e
@@ -100,10 +118,13 @@ hdec74_L0
         jmp hdec74_L0
 
 hdec74_L0e
+; A = r ^ A
         eor 1,SP
         sta 1,SP
 
 
+; No hubo error o fue corregido.
+; Reemplazo bit 3 que es paridad por el correspondiente dato.
 hdec74_noerr
         lda 1,SP
         bit #%10000
