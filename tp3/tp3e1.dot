@@ -1,0 +1,64 @@
+digraph {
+    labelloc = bc;
+    color   = "gray";
+    bgcolor = "mintcream";
+    node [color="skyblue"];
+    edge [color="gray"];
+
+    subgraph cluster_flujo {
+        label = "Flujo";
+        labelloc = tc;
+
+        inicio[shape="box", style=rounded];
+        fin[shape="box", style=rounded];
+
+        inicia_registros[
+            shape="box",
+            label="Cargar dato recibido en A"
+        ]
+
+        multiplica[
+            shape="box",
+            label="s = MatrizParidad * A"
+        ]
+
+        compara_sindrome[
+            shape="diamond",
+            label="s == 0",
+        ]
+
+        invierte[
+            shape="box",
+            label="invierte bit s de A",
+        ]
+
+        decodifica[
+            shape="box",
+            label="reemplazar bit 3 (paridad) por bit 4(dato) \n A = A | ((A & 0x10) >> 1) \n A = A & 0x0F"
+        ]
+
+        inicio -> inicia_registros -> multiplica -> compara_sindrome;
+        compara_sindrome:w -> decodifica:n[taillabel=" si"];
+        compara_sindrome:e -> invierte[taillabel=" no"];
+        invierte:w -> decodifica:e;
+        {rank=same; decodifica ; invierte};
+        decodifica:s -> fin;
+
+    }
+
+    subgraph cluster_matriz {
+        label = "Matriz de Paridad";
+        labelloc = tc;
+        l1[style=invis, label="", shape=none];
+
+        matriz[
+            shape="record",
+            label="{0|0|1}|{0|1|0}|{0|1|1}|{1|0|0}|{1|0|1}|{1|1|0}|{1|1|1}",
+
+        ]
+
+        l1 -> matriz[style=invis];
+    }
+
+    label="TP 3 ejercicio 1.";
+}
