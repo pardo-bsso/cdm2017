@@ -1,0 +1,55 @@
+digraph {
+    labelloc = bc;
+    color   = "gray";
+    bgcolor = "mintcream";
+    node [color="skyblue"];
+    edge [color="gray"];
+
+    subgraph cluster_flujo {
+        label = "Flujo";
+        labelloc = tc;
+
+        fin[shape="box", style=rounded];
+
+        inicio[
+            shape="box",
+            style=rounded,
+            label="Calcular R = X * Y"
+        ]
+
+        bit_0_y_set[
+            shape="diamond",
+            label="Bit 0 de Y == 1",
+        ]
+
+        suma[
+            shape="box",
+            label="R = R + X",
+        ]
+
+        rota[
+            shape="box",
+            label="X = X << 1 \n Y = Y >> 1",
+        ]
+
+        fin_rota[
+            shape="diamond",
+            label="Agoté bits de Y?",
+        ]
+
+
+        inicio:s -> bit_0_y_set:n[weight=10];
+        bit_0_y_set:w -> suma:w[taillabel=" si"];
+        bit_0_y_set:s -> rota:n[taillabel=" no", weight=100];
+        suma -> rota;
+        {rank=same; rota ; suma};
+        //{rank=same; bit_0_y_set ; suma};
+        rota:s -> fin_rota:n[weight=1000];
+
+        fin_rota:e -> bit_0_y_set:e[taillabel=" no", constraint=false];
+        fin_rota:s -> fin[taillabel=" si", weight=100];
+
+    }
+
+    label="TP 3 ejercicio 2.1";
+}
