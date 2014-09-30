@@ -1,0 +1,34 @@
+digraph {
+    labelloc = bc;
+    color   = "gray";
+    bgcolor = "mintcream";
+    node [color="skyblue"];
+    edge [color="gray"];
+
+    subgraph cluster_flujo {
+        label = "Flujo";
+        labelloc = tc;
+
+        fin[shape="box", style=rounded];
+
+        inicio[
+            shape="box",
+            style=rounded,
+            label="Calcular R = X * Y \n X separado en bytes alto y bajo."
+        ]
+
+        mult_bajo[
+            shape="box",
+            label="R = Y * Xl",
+        ]
+
+        mult_alto[
+            shape="box",
+            label="R = R + ((Y * Xh) << 8)",
+        ]
+
+        inicio -> mult_bajo -> mult_alto -> fin;
+    }
+
+    label="TP 3 ejercicio 2.2";
+}
