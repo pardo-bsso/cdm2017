@@ -3,18 +3,20 @@
 
         org $EE00
 start
-;       nem                  addr   opc(hex)    dir         ccr
-        ldhx #$008F         ;EE00   45008F      inmediato   -11-I---
-        lda ,X              ;EE03   F6          indexado    (depende de donde apunte X)
-        psha                ;EE04   87          inherente   =
-        decx                ;EE05   5A          inherente   -11-I---
-        cphx #$007F         ;EE06   65007F      inmediato   -11-I--- N=1 si H==0x007F
+;       nem                  addr   opc(hex)    dir         ccr (solo primer iteracion)
+        ldhx #$008F         ;EE00   45008F      inmediato   01101000
+        lda ,X              ;EE03   F6          indexado    01101100
+        psha                ;EE04   87          inherente   01101100
+        decx                ;EE05   5A          inherente   01101100
+        cphx #$007F         ;EE06   65007F      inmediato   01101000 N=1 si H==0x007F
         bne *-6             ;EE09   26F8        relativo    
-        ldx #$008F          ;EE0B   45008F      inmediato   
-        pula                ;EE0D   86          inherente   (depende del valor en la pila)
-        sta ,X              ;EE0E   F7          indexado    
-        decx                ;EE0F   5A          inherente   
-        cphx #$007F         ;EE10   65007F      inmediato   -11-I--- N=1 si H==0x007F
+
+                            ;                               una iteracion. Ya pase por el bucle anterior
+        ldx #$008F          ;EE0B   45008F      inmediato   01101100
+        pula                ;EE0D   86          inherente   01101100
+        sta ,X              ;EE0E   F7          indexado    01101100
+        decx                ;EE0F   5A          inherente   01101100
+        cphx #$007F         ;EE10   65007F      inmediato   01101000 N=1 si H==0x007F
         bne *-6             ;EE13   26F8        relativo    
 
 end
