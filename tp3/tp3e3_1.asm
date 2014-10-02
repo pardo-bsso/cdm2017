@@ -3,6 +3,13 @@
 ; A e B son variables de un byte.
 ; A variable de dos bytes.
 ; R contiene el resto de la division.
+; Tanto R como C estan truncados a ocho bits, por lo que para cierto rango de
+; entradas el resultado es incorrecto. Por ejemplo, con cualquier valor de B
+; si A = 0xfe01
+;
+; Si bien como paso intermedio se conserva la parte alta de R habria que
+; extender el resultado a una variable de dos bytes.
+
 
         org $80
 A       dw $BADC
