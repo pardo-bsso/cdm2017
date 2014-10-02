@@ -1,0 +1,74 @@
+digraph {
+    labelloc = bc;
+    color   = "gray";
+    bgcolor = "mintcream";
+    node [color="skyblue"];
+    edge [color="gray"];
+
+    subgraph cluster_flujo {
+        label = "Flujo";
+        labelloc = tc;
+
+        fin[shape="box", style=rounded];
+
+        inicio[
+            shape="box",
+            style=rounded,
+            label="Calcular C = A / B \n con resto en R"
+        ]
+
+        r_mayor[
+            shape="diamond",
+            label="R > B",
+        ]
+
+        resta[
+            shape="box",
+            label="R = R - B",
+        ]
+
+        rota_a_r[
+            shape="box",
+            label="Ingreso el MSB de A en R \n R = (R << 1) | ((A & 0x8000) >> 15)",
+        ]
+
+        rota_a[
+            shape="box",
+            label="Desplazo A \n A = A << 1",
+        ]
+
+        ingresa_cero[
+            shape="box",
+            label="Ingreso un '0' en C \n C = (C << 1)",
+        ]
+
+        ingresa_uno[
+            shape="box",
+            label="Ingreso un '1' en C \n C = (C << 1) | 0x01",
+        ]
+
+        fin_rota[
+            shape="diamond",
+            label="Agoté bits de A?",
+        ]
+
+
+        inicio:s -> rota_a_r:n[weight=1000];
+        rota_a_r:s -> rota_a:n[weight=1000];
+        rota_a:s -> r_mayor:n[weight=1000];
+
+        r_mayor:w -> ingresa_cero[taillabel=" no"];
+        ingresa_cero -> fin_rota:w;
+
+        r_mayor:s -> resta[taillabel=" si", weight=1000];
+        resta -> ingresa_uno[weight=1000];
+        ingresa_uno:s -> fin_rota:n[weight=1000];
+        {rank=same; ingresa_cero ; ingresa_uno};
+
+        fin_rota:e -> rota_a_r:e[taillabel=" no", constraint=false];
+        fin_rota:s -> fin[taillabel=" si", weight=1000];
+
+    }
+
+    label="TP 3 ejercicio 3.1";
+}
