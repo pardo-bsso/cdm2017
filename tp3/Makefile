@@ -1,4 +1,4 @@
-ASM=/media/xp/ics08qtqyz/CASM08Z.EXE
+ASM=/media/datos/programas/pemicro/ics08qtqyz/CASM08Z.EXE
 
 %.png : %.dot
 		dot -Tpng $< -o $@
